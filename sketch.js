@@ -48,21 +48,23 @@ function draw() {
 	for(let i=0; i<cols; i++) {
 		for (let j=0; j<rows; j++) {
 		let state = grid[i][j];
+		//count live neighbors
+			let sum = 0;
+			
 		//edges
 		if(i==0 || j==0 || i==cols-1 || j==rows-1) {
 				next[i][j] = state;
 		} else {
 	
 			
-	//count live neighbors
-			let sum = 0;
-			let neighbors = countNeighbors(grid, i, j);
+	
 			
 			
 	//rules of life!
+	let neighbors = countNeighbors(grid, i, j);
 			if(state == 0 && neighbors == 3) {
 				next[i][j] = 1;
-			} else if(state ==1 && (neighbors < 2 || neighbors > 2)) {
+			} else if(state ==1 && (neighbors < 2 || neighbors > 3)) {
 				next[i][j] = 0;
 			} else {
 				next[i][j] = state;
@@ -80,8 +82,10 @@ function draw() {
 function countNeighbors(grid, x, y) {
 	let sum = 0;
 	for(let i = -1; i<2; i++) {
-		for(let j=-1; j<2; j++)
-	sum += grid[x+i][y+j];
+		for(let j=-1; j<2; j++) {
+			sum += grid[x+i][y+j];
+		}
 	}
 	sum -= grid[x][y];
+	return sum;
 }
